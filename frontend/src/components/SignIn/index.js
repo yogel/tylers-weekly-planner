@@ -8,8 +8,10 @@ import * as ROUTES from '../../constants/routes';
 
 import { PasswordForgetLink } from '../PasswordForget';
 
+import './signin.scss';
+
 const SignInPage = () => (
-    <div>
+    <div id="signin">
         <h1>SignIn</h1>
         <SignInForm />
         <PasswordForgetLink />
@@ -37,7 +39,7 @@ class SignInFormBase extends Component {
             .doSignInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
-                this.props.history.push(ROUTES.HOME);
+                this.props.history.push(ROUTES.LANDING);
             })
             .catch(error => {
                 this.setState({ error });
@@ -56,7 +58,10 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <form
+                className="sign-in-form"
+                onSubmit={this.onSubmit}
+            >
                 <input
                     name="email"
                     value={email}

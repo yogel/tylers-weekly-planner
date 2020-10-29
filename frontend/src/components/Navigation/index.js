@@ -6,8 +6,11 @@ import SignOutButton from '../SignOut';
 
 import { AuthUserContext } from '../Session';
 
+import './navigation.scss';
+
 const Navigation = () => (
-    <div>
+    <div id="navBar">
+        <h1>Planner</h1>
         <AuthUserContext.Consumer>
             {authUser =>
                 authUser ? <NavigationAuth /> : <NavigationNonAuth />
@@ -19,9 +22,6 @@ const NavigationAuth = () => (
     <ul>
         <li>
             <Link to={ROUTES.LANDING}>Landing</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.HOME}>Home</Link>
         </li>
         <li>
             <Link to={ROUTES.ACCOUNT}>Account</Link>
