@@ -10,7 +10,7 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
-import AccountPage from '../Account';
+import DashboardPage from '../Dashboard';
 import AdminPage from '../Admin';
 
 // Path constants
@@ -33,7 +33,7 @@ const App = () => (
             path={ROUTES.PASSWORD_FORGET}
             component={PasswordForgetPage}
             />
-            <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+            <Route path={ROUTES.DASHBOARD} component={DashboardPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
         </div>
     </Router>
