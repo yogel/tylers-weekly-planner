@@ -54,14 +54,40 @@ const TodoQueue = () => {
         },
     ]);
 
+    const onDrop = (item, monitor, list) => {
+        setItems(prevState => {
+            console.log('SET ITEMS');
+            console.log(prevState);
+            const newItems = prevState
+                .filter(i => i.id !== item.id)
+                .concat({...item, list});
+
+                return [ ...newItems]
+        });
+    };
+
+    const moveItem = (dragIndex, hoverIndex) => {
+        console.log('MOVE ITEM');
+
+        console.log(items);
+        console.log(dragIndex);
+        console.log(hoverIndex);
+        console.log(items[dragIndex]);
+        const item = items[dragIndex];
+
+        setItems(prevState => {
+            const newItems = prevState.filter((i, index) => index !== dragIndex);
+
+            newItems.splice(hoverIndex, 0, item);
+
+            return [ ...newItems ];
+        });
+    };
+
     const addTodoItem = newItem => {
         setItems(prevState => {
             return [ ...prevState, newItem];
         });
-    }
-
-    const onDrop = () => {
-
     }
 
     return (
@@ -70,12 +96,29 @@ const TodoQueue = () => {
             {/* List the to do items in the queue */}
             {LISTS.map(list => {
                 return (
-                    <DropWrapper key={list} onDrop={onDrop} className="todoqueue-list">
-                        {(items || []).map((item, index) => {
-                            return item.list === list ? <TodoItem key={index} item={item}></TodoItem> : '';
-                        })}
-                    </DropWrapper>
-                )
+                    <div key={list}>
+                        <h2>{list}</h2>
+                        <DropWrapper
+                            onDrop={onDrop}
+                            list={list}
+                            className="todoqueue-list"
+                        >
+                            {
+                            items
+                                .filter(i => i.list === list)
+                                .map((item, index) =>(
+                                    <TodoItem
+                                        key={item.id}
+                                        item={item}
+                                        index={index}
+                                        moveItem={moveItem}
+                                        list={list}
+                                    />
+                                ))
+                            }
+                        </DropWrapper>
+                    </div>
+                );
             })}
             {/* Add a way to add in to do items */}
             <AddToDo onAddTodoItem={addTodoItem} />

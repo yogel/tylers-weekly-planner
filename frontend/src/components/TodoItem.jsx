@@ -1,7 +1,7 @@
 import React, {useRef, Fragment} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-const TodoItem = ({ item, index, moveItem, status }) => {
+const TodoItem = ({ item, index, moveItem, list }) => {
     const ref = useRef(null);
 
     const [, drop] = useDrop({
@@ -11,7 +11,10 @@ const TodoItem = ({ item, index, moveItem, status }) => {
                 return
             }
 
-            const dragIndex = index.item;
+            console.log('USEDROP');
+            console.log(index);
+
+            const dragIndex = item.index;
 
             // Whatever we are hovering over
             const hoverIndex = index;
@@ -21,10 +24,10 @@ const TodoItem = ({ item, index, moveItem, status }) => {
                 return;
             }
 
-            const hoveredReact = ref.current.getBoundingClientReact();
-            const hoverMiddleY = (hoveredReact.bottom - hoveredReact.top) / 2;
+            const hoveredRect = ref.current.getBoundingClientRect();
+            const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2;
             const mousePosition = monitor.getClientOffset();
-            const hoverClientY = mousePosition.y- hoveredReact.top;
+            const hoverClientY = mousePosition.y- hoveredRect.top;
 
             // This means we don't need to sort it down since it's still where it started
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {

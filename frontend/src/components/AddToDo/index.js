@@ -18,9 +18,27 @@ class AddToDo extends Component {
 
         // Make sure the text field isn't empty
         if (newTodoText.trim() !== '') {
+            /*
+            {
+            id: 3,
+            list: 'QUEUE',
+            isDone: false,
+            title: 'Fourth task',
+            checkList: [],
+            description: '',
+            resources: [],
+            images: [], 
+        }
+        */
             const newToDoItem = {
+                id: '_' + Math.random().toString(36).substr(2, 9),
                 list: LISTS[0],
-                text: newTodoText,
+                title: newTodoText,
+                isDone: false,
+                checkList: [],
+                description: '',
+                resources: [],
+                images: [],
             };
 
             this.props.onAddTodoItem(newToDoItem);
