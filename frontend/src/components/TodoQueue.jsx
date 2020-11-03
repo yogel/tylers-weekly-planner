@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import AddToDo from '../AddToDo';
-import TodoItem from '../TodoItem';
-import DropWrapper from '../DropWrapper';
+import AddToDo from './AddToDo';
+import TodoItem from './TodoItem';
+import DropWrapper from './DropWrapper';
 
 // Import lists constants
-import LISTS from '../../constants/lists';
+import LISTS from '../constants/lists';
 
 // Add in Styles
-import './styles.scss';
+import '../styles/todoQueueStyles.scss';
 
 const TodoQueue = () => {
     // Add in some dummy data for now
@@ -78,11 +78,8 @@ const TodoQueue = () => {
         setItems(prevState => {
             const indexOfItemBeingDeleted = prevState.indexOf(item);
 
-            console.log(indexOfItemBeingDeleted);
-
             // Just make sure the item is found
             if (indexOfItemBeingDeleted > -1) {
-                console.log(prevState.splice(indexOfItemBeingDeleted, 1));
                 prevState.splice(indexOfItemBeingDeleted, 1);
             }
 

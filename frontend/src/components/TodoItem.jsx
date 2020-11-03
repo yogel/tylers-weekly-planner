@@ -20,13 +20,11 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) 
         // Save old title just in case we want to cancel the edit
         setReservedTitle(taskTitle);
 
-        console.log(reservedTitle);
         // Add in input with state
         setInEditMode(true);
     }
 
     const handleOnCancelEditClick = () => {
-        console.log(reservedTitle);
         // Revert back to old title
         setTaskTitle(reservedTitle);
         // Set back into non-edit mode

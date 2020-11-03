@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LISTS from '../../constants/lists';
+import LISTS from '../constants/lists';
 
 class AddToDo extends Component {
     constructor(props) {

@@ -11,7 +11,6 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import DashboardPage from '../Dashboard';
-import AdminPage from '../Admin';
 
 // Path constants
 import * as ROUTES from '../../constants/routes';
@@ -34,7 +33,6 @@ const App = () => (
             component={PasswordForgetPage}
             />
             <Route path={ROUTES.DASHBOARD} component={DashboardPage} />
-            <Route path={ROUTES.ADMIN} component={AdminPage} />
         </div>
     </Router>
 );
