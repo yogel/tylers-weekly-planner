@@ -1,18 +1,24 @@
-import React, {useRef, Fragment} from 'react';
+import React, {useRef, Fragment, useState} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-const TodoItem = ({ item, index, moveItem, list }) => {
+const TodoItem = ({ item, index, moveItem, onItemChanged, list }) => {
     const ref = useRef(null);
+    const [isDone, setIsDone] = useState(item.isDone);
 
+    const handleCheckboxChange = () => {
+        setIsDone(!isDone);
+        // Propagate the event upwards
+        item.isDone = !isDone;
+        onItemChanged(item);
+    }
+
+    // All the drage and drop logic below
     const [, drop] = useDrop({
         accept: 'ITEM',
         hover(item, monitor) {
             if (!ref.current) {
                 return
             }
-
-            console.log('USEDROP');
-            console.log(index);
 
             const dragIndex = item.index;
 
@@ -55,11 +61,6 @@ const TodoItem = ({ item, index, moveItem, list }) => {
         }),
     });
 
-    // const [show, setShow] = useState(false);
-
-    // const onOpen = () => setShow(true);
-    // const onClose = () => setShow(false);
-
     drag(drop(ref));
 
     return (
@@ -69,6 +70,11 @@ const TodoItem = ({ item, index, moveItem, list }) => {
                 style={{ opacity: isDragging ? 0 : 1}}
                 className="item"
             >
+                <input
+                    type="checkbox"
+                    checked={isDone}
+                    onChange={handleCheckboxChange}
+                />
                 <p>{item.title}</p>
             </div>
         </Fragment>

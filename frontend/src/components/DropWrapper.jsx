@@ -21,8 +21,6 @@ const DragWrapper = ({ onDrop, children, list }) => {
             ref={drop}
             className="todoqueue-list"
         >
-
-            {console.log(children)}
             {children ? children.map(child => child ? React.cloneElement(child, { isOver }) : '') : ''}
             {/* {React.cloneElement(children, { isOver })} */}
             {/* {children} */}

@@ -54,10 +54,29 @@ const TodoQueue = () => {
         },
     ]);
 
+    // Add this in if we need to change the "upper state" in this component
+    const itemChanged = newItem => {
+        // setItems(prevState => {
+        //     const itemId = newItem.id;
+        //     // Find the index of the item that should be changed
+        //     let indexOfChangedItem = -1;
+
+        //     prevState.forEach((item, index) => {
+        //         if (item.id === itemId) {
+        //             indexOfChangedItem = index
+        //         }
+        //     });
+
+        //     // Set the new item based off the index
+        //     prevState[indexOfChangedItem] = newItem;
+
+        //     return prevState;
+        // });
+    }
+
+    // Drag and drop functionality below
     const onDrop = (item, monitor, list) => {
         setItems(prevState => {
-            console.log('SET ITEMS');
-            console.log(prevState);
             const newItems = prevState
                 .filter(i => i.id !== item.id)
                 .concat({...item, list});
@@ -67,12 +86,6 @@ const TodoQueue = () => {
     };
 
     const moveItem = (dragIndex, hoverIndex) => {
-        console.log('MOVE ITEM');
-
-        console.log(items);
-        console.log(dragIndex);
-        console.log(hoverIndex);
-        console.log(items[dragIndex]);
         const item = items[dragIndex];
 
         setItems(prevState => {
@@ -113,6 +126,7 @@ const TodoQueue = () => {
                                         index={index}
                                         moveItem={moveItem}
                                         list={list}
+                                        onItemChanged={itemChanged}
                                     />
                                 ))
                             }
