@@ -74,6 +74,22 @@ const TodoQueue = () => {
         // });
     }
 
+    const deleteItem = item => {
+        setItems(prevState => {
+            const indexOfItemBeingDeleted = prevState.indexOf(item);
+
+            console.log(indexOfItemBeingDeleted);
+
+            // Just make sure the item is found
+            if (indexOfItemBeingDeleted > -1) {
+                console.log(prevState.splice(indexOfItemBeingDeleted, 1));
+                prevState.splice(indexOfItemBeingDeleted, 1);
+            }
+
+            return [ ...prevState ];
+        });
+    }
+
     // Drag and drop functionality below
     const onDrop = (item, monitor, list) => {
         setItems(prevState => {
@@ -81,7 +97,7 @@ const TodoQueue = () => {
                 .filter(i => i.id !== item.id)
                 .concat({...item, list});
 
-                return [ ...newItems]
+                return [ ...newItems ]
         });
     };
 
@@ -127,6 +143,7 @@ const TodoQueue = () => {
                                         moveItem={moveItem}
                                         list={list}
                                         onItemChanged={itemChanged}
+                                        onDeleteItem={deleteItem}
                                     />
                                 ))
                             }

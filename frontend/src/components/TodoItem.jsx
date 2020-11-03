@@ -1,7 +1,7 @@
 import React, {useRef, Fragment, useState} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-const TodoItem = ({ item, index, moveItem, onItemChanged, list }) => {
+const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) => {
     const ref = useRef(null);
     const [isDone, setIsDone] = useState(item.isDone);
 
@@ -10,6 +10,10 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, list }) => {
         // Propagate the event upwards
         item.isDone = !isDone;
         onItemChanged(item);
+    }
+
+    const handleDeleteTask = () => {
+        onDeleteItem(item);
     }
 
     // All the drage and drop logic below
@@ -70,12 +74,22 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, list }) => {
                 style={{ opacity: isDragging ? 0 : 1}}
                 className="item"
             >
-                <input
-                    type="checkbox"
-                    checked={isDone}
-                    onChange={handleCheckboxChange}
-                />
-                <p>{item.title}</p>
+                <div className="checkbox-and-title">
+                    <input
+                        type="checkbox"
+                        checked={isDone}
+                        onChange={handleCheckboxChange}
+                    />
+                    <p>{item.title}</p>
+                </div>
+                <div className="edit-and-delete">
+                    <button>✏️</button>
+                    <button
+                        onClick={handleDeleteTask}
+                    >
+                        🗑️
+                    </button>
+                </div>
             </div>
         </Fragment>
     )
