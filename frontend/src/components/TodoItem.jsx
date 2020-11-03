@@ -2,8 +2,12 @@ import React, {useRef, Fragment, useState} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) => {
-    const ref = useRef(null);
+    const itemContainerRef = useRef(null);
+    const editItemTextInput = useRef(null);
     const [isDone, setIsDone] = useState(item.isDone);
+    const [inEditMode, setInEditMode] = useState(false);
+    const [taskTitle, setTaskTitle] = useState(item.title);
+    const [reservedTitle, setReservedTitle] = useState(item.title);
 
     const handleCheckboxChange = () => {
         setIsDone(!isDone);
@@ -12,15 +16,43 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) 
         onItemChanged(item);
     }
 
+    const handleOnEditClick = () => {
+        // Save old title just in case we want to cancel the edit
+        setReservedTitle(taskTitle);
+
+        console.log(reservedTitle);
+        // Add in input with state
+        setInEditMode(true);
+    }
+
+    const handleOnCancelEditClick = () => {
+        console.log(reservedTitle);
+        // Revert back to old title
+        setTaskTitle(reservedTitle);
+        // Set back into non-edit mode
+        setInEditMode(false);
+    }
+
+    const handleSaveEditClick = () => {
+        // Propagate the event upwards
+        onItemChanged(item);
+        // Set state back to non-edit mode
+        setInEditMode(false);
+    }
+
     const handleDeleteTask = () => {
         onDeleteItem(item);
+    }
+
+    const handleEditOnChange = event => {
+        setTaskTitle(event.target.value);
     }
 
     // All the drage and drop logic below
     const [, drop] = useDrop({
         accept: 'ITEM',
         hover(item, monitor) {
-            if (!ref.current) {
+            if (!itemContainerRef.current) {
                 return
             }
 
@@ -34,7 +66,7 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) 
                 return;
             }
 
-            const hoveredRect = ref.current.getBoundingClientRect();
+            const hoveredRect = itemContainerRef.current.getBoundingClientRect();
             const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2;
             const mousePosition = monitor.getClientOffset();
             const hoverClientY = mousePosition.y- hoveredRect.top;
@@ -65,12 +97,12 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) 
         }),
     });
 
-    drag(drop(ref));
+    drag(drop(itemContainerRef));
 
     return (
         <Fragment>
             <div
-                ref={ref}
+                ref={itemContainerRef}
                 style={{ opacity: isDragging ? 0 : 1}}
                 className="item"
             >
@@ -80,16 +112,48 @@ const TodoItem = ({ item, index, moveItem, onItemChanged, onDeleteItem, list }) 
                         checked={isDone}
                         onChange={handleCheckboxChange}
                     />
-                    <p>{item.title}</p>
+                    {inEditMode ?
+                        <input
+                            type="text"
+                            ref={editItemTextInput}
+                            value={taskTitle}
+                            onChange={handleEditOnChange}
+                        />
+                    :
+                        <p>{taskTitle}</p>
+                    }
                 </div>
-                <div className="edit-and-delete">
-                    <button>✏️</button>
-                    <button
-                        onClick={handleDeleteTask}
-                    >
-                        🗑️
-                    </button>
-                </div>
+                {inEditMode ?
+                    (
+                        <div className="edit-and-delete">
+                            <button
+                                onClick={handleOnCancelEditClick}
+                            >
+                                ❌
+                            </button>
+                            <button
+                                onClick={handleSaveEditClick}
+                            >
+                                ✅
+                            </button>
+                        </div>
+                    )
+                :
+                    (
+                        <div className="edit-and-delete">
+                            <button
+                                onClick={handleOnEditClick}
+                            >
+                                ✏️
+                            </button>
+                            <button
+                                onClick={handleDeleteTask}
+                            >
+                                🗑️
+                            </button>
+                        </div>
+                    )
+                }
             </div>
         </Fragment>
     )
