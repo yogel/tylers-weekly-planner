@@ -1,4 +1,4 @@
-import React, {useState, useRef, Fragment} from 'react';
+import React, {useRef, Fragment} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const TodoItem = ({ item, index, moveItem, status }) => {
@@ -66,7 +66,7 @@ const TodoItem = ({ item, index, moveItem, status }) => {
                 style={{ opacity: isDragging ? 0 : 1}}
                 className="item"
             >
-                <p>{item.text}</p>
+                <p>{item.title}</p>
             </div>
         </Fragment>
     )

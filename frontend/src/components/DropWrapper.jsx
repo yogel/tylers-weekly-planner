@@ -19,6 +19,7 @@ const DragWrapper = ({ onDrop, children, status }) => {
     return (
         <div
             ref={drop}
+            className="todoqueue-list"
         >
             {/* {React.cloneElement(children, { isOver })} */}
             {children}

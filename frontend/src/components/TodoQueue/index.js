@@ -10,7 +10,49 @@ import LISTS from '../../constants/lists';
 import './styles.scss';
 
 const TodoQueue = () => {
-    const [items, setItems] = useState([]);
+    // Add in some dummy data for now
+    const [items, setItems] = useState([
+        {
+            id: 0,
+            list: 'QUEUE',
+            isDone: false,
+            title: 'First task',
+            checkList: [],
+            description: '',
+            resources: [],
+            images: [], 
+        },
+        {
+            id: 1,
+            list: 'QUEUE',
+            isDone: false,
+            title: 'Second task',
+            checkList: [],
+            description: '',
+            resources: [],
+            images: [], 
+        },
+        {
+            id: 2,
+            list: 'QUEUE',
+            isDone: false,
+            title: 'Third task',
+            checkList: [],
+            description: '',
+            resources: [],
+            images: [], 
+        },
+        {
+            id: 3,
+            list: 'QUEUE',
+            isDone: false,
+            title: 'Fourth task',
+            checkList: [],
+            description: '',
+            resources: [],
+            images: [], 
+        },
+    ]);
 
     const addTodoItem = newItem => {
         setItems(prevState => {
@@ -28,7 +70,7 @@ const TodoQueue = () => {
             {/* List the to do items in the queue */}
             {LISTS.map(list => {
                 return (
-                    <DropWrapper onDrop={onDrop} className="todoqueue-list">
+                    <DropWrapper key={list} onDrop={onDrop} className="todoqueue-list">
                         {(items || []).map((item, index) => {
                             return item.list === list ? <TodoItem key={index} item={item}></TodoItem> : '';
                         })}
